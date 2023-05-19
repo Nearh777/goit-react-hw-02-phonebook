@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
-export class Form extends Component {
+
+
+export class ContactForm extends Component {
   state = {
-    contacts: [],
     name: '',
   };
 
@@ -12,11 +13,9 @@ export class Form extends Component {
 
   hendleSubbmit = e => {
     e.preventDefault();
-    this.props.onSubmit({
-        contacts: this.state.name,
-    });
-    // this.props.contacts(this.contacts);
-    this.reset();
+    this.props.onSubmit(this.state.name)
+    this.setState({ name: ' ' });
+    
   };
 
   reset = () => {
@@ -27,7 +26,7 @@ export class Form extends Component {
     return (
       <form onSubmit={this.hendleSubbmit}>
         <label> 
-           Телефонна книга<br />
+           
           <input
             type="text"
             name="name"
@@ -39,8 +38,9 @@ export class Form extends Component {
           />
         </label><br />
 
-        <button type="submit">Додати контакт</button>
+        <button type="submit">Add contacts</button>
       </form>
+      
     );
   }
 }
