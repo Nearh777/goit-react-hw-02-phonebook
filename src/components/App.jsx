@@ -1,16 +1,32 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
+import React, {Component}  from 'react';
+import { Form } from './Form/Form';
+
+export class App extends Component {
+
+  state = {
+// contactsList: 
+  }
+
+
+formSubmitHandler = data => {
+ 
+  // contacts.push(data);
+  console.log(data);
 };
+
+  render() {
+    return (
+      <div>
+        <Form />
+  
+        <ul>
+          <p>Contacts</p>
+              <li>
+             {this.formSubmitHandler}
+              </li>
+              </ul>
+      </div>
+    );
+  }
+}
+
