@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-// import { ContactList } from './ContactList/ContactList';
+import PropTypes from 'prop-types';
 import { ContactForm } from './Form/ContactForm';
 import { ContactList } from './ContactList/ContactList';
+import { Filter } from './Filter/Filter';
 
-// export class App extends Component {
 
-// }
 
 export class App extends Component {
+  static propTypes = {
+    contacts: PropTypes.arrayOf(PropTypes.string),
+    filter: PropTypes.string,
+
+  };
+  
+
   state = {
     contacts: [],
-    filters: '',
+    filter: '',
   };
 
   
@@ -28,36 +34,47 @@ export class App extends Component {
     });
   };
 
-  handleSearchChange = (event) => {
-    this.setState({ filters: event.target.value });
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }))
   }
 
-  filteredContacts = this.contacts.filter(contact =>
-    contact.name.toLowerCase().includes(this.filters.toLowerCase())
-  );
+
+  changeFilter = (event) => {
+    this.setState({filter: event.target.value});
+  }
+
+  getVisibleContact = () => {
+    const {filter, contacts} = this.state;
+    const normalizedFilter = filter.toLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  }
+  
 
 
 
   render() {
-    const {filters, contacts} = this.state;
+    const {filter, contacts} = this.state;
     const {number} = this.props;
+    
+
+    const filteredContacts = this.getVisibleContact();
     
     
     return (
-      <div>
-        <h1>Phonebook</h1>
+      <div >
+        <h1 htmlFor='exampleFormControlInput1' className='form-label'>Phonebook</h1>
 
-        <ContactForm addContact={this.addContact} />
+        <ContactForm contacts={contacts} addContact={this.addContact} number={number} />
 
         <h2>Contacts:</h2>
-        <input
-          type="text"
-          value={filters}
-          onChange={this.handleSearchChange}
-          placeholder="Пошук за ім'ям"
-        />
+       <Filter value={filter} onChange={this.changeFilter}/>
         <ul>
-        <ContactList onChang={this.filteredContacts} contacts={contacts}  number={number}/>
+        <ContactList contacts={filteredContacts } onDeleteContatct={this.deleteContact}  />
         </ul>
         
         
@@ -65,3 +82,10 @@ export class App extends Component {
     );
   }
 }
+
+
+
+
+
+
+

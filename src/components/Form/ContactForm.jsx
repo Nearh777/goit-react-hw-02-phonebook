@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 
 export class ContactForm extends Component {
+  static propTypes = {
+    name: PropTypes.string,
+    number: PropTypes.string,
+
+  };
+
   state = {
     name: '',
     number: '',
@@ -14,7 +22,15 @@ export class ContactForm extends Component {
   handleSubmat = event => {
     event.preventDefault();
     const { name, number } = this.state;
+    const { contacts } = this.props;
     if (name.trim() === '' || number.trim() === '') {
+      return;
+    }
+    const existingContact = contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    )
+    if (existingContact) {
+      alert("Контакт з таким ім'ям вже існує.");
       return;
     }
     this.props.addContact(name.trim(), number.trim());
@@ -25,8 +41,8 @@ export class ContactForm extends Component {
     const { name, number } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmat}>
-        <input
+      <form onSubmit={this.handleSubmat} className='row g-3 align-items-center'>
+        <input className='form-control'
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -36,7 +52,7 @@ export class ContactForm extends Component {
           onChange={this.handleChange}
         />
         <h2>Number</h2>
-        <input
+        <input className='form-control'
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -45,9 +61,9 @@ export class ContactForm extends Component {
           value={number}
           onChange={this.handleChange}
         />
-        <br />
+        
 
-        <button type="submit">Add contacts</button>
+        <button type="submit" className='btn btn-outline-primary btn-lg' >Add contacts</button>
       </form>
     );
   }
