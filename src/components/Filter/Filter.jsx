@@ -1,14 +1,18 @@
 import React from "react";
 
+import {Input, ContainerFiltr, Label} from './Filter.styled'
+
 export const Filter = ({value, onChange}) => (
-    <label >
+   <ContainerFiltr>
+     <Label >
 Find contacts by name
-<br />
-       <input className='form-control'
-          type="text"
-          value={value}
-          onChange={onChange}
-          placeholder="Пошук за ім'ям"
-        />
-       </label>
+<Input 
+       type="text"
+       value={value}
+       onChange={onChange}
+       placeholder="Пошук за ім'ям"
+     />
+       </Label>
+   </ContainerFiltr>
+       
 )

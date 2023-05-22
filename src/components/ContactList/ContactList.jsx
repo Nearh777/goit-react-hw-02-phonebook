@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import {List, BtnCont} from './ContactList.styled'
+
 export class ContactList extends Component {
 
 render() {
@@ -7,14 +9,14 @@ render() {
 
     return (
       
-        <ul>
+        <List>
           {contacts.map((contact) => (
             <li key={contact.id}>
              {contact.name}: {contact.number}
-             <button onClick={() => onDeleteContatct(contact.id)} className='btn btn-outline-primary btn-sm'>Delete</button>
+             <BtnCont onClick={() => onDeleteContatct(contact.id)} className='btn btn-outline-primary btn-sm' >Delete</BtnCont>
              </li>
           ))}
-        </ul>
+        </List>
       
     );
   }

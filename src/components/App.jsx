@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { ContactForm } from './Form/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
+import { ContainerApp, Title, TitleCont } from './App.styled';
 
 
 
@@ -66,19 +67,19 @@ contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     
     
     return (
-      <div >
-        <h1 htmlFor='exampleFormControlInput1' className='form-label'>Phonebook</h1>
+      <ContainerApp>
+        <Title>Phonebook</Title>
 
         <ContactForm contacts={contacts} addContact={this.addContact} number={number} />
 
-        <h2>Contacts:</h2>
+        <TitleCont>Contacts:</TitleCont>
        <Filter value={filter} onChange={this.changeFilter}/>
-        <ul>
+       
         <ContactList contacts={filteredContacts } onDeleteContatct={this.deleteContact}  />
-        </ul>
         
         
-      </div>
+        
+      </ContainerApp>
     );
   }
 }
