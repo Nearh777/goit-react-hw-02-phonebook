@@ -1,115 +1,67 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-// import { ContactForm } from './Form/ContactForm';
 // import { ContactList } from './ContactList/ContactList';
+import { ContactForm } from './Form/ContactForm';
+import { ContactList } from './ContactList/ContactList';
+
+// export class App extends Component {
+
+// }
 
 export class App extends Component {
   state = {
     contacts: [],
-    name: '',
+    filters: '',
   };
 
-  handleNameChange = event => {
-    this.setState({ name: event.target.value });
-  };
+  
 
-  handleAddContact = () => {
-    const { contacts, name } = this.state;
+  addContact = (name, number) => {
+    const { contacts } = this.state;
     const newContact = {
       id: nanoid(),
-      name: name.trim(),
+      name,
+      number,
     };
-
-    if (newContact.name !== '') {
-      this.setState({
-        contacts: [...contacts, newContact],
-        name: '',
-      });
-    }
+    this.setState({
+      contacts: [...contacts, newContact],
+    });
   };
 
-  render() {
-    const { contacts, name } = this.state;
+  handleSearchChange = (event) => {
+    this.setState({ filters: event.target.value });
+  }
 
+  filteredContacts = this.contacts.filter(contact =>
+    contact.name.toLowerCase().includes(this.filters.toLowerCase())
+  );
+
+
+
+  render() {
+    const {filters, contacts} = this.state;
+    const {number} = this.props;
+    
+    
     return (
       <div>
         <h1>Phonebook</h1>
 
-        <input
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-          value={name}
-          onChange={this.handleNameChange}
-        />
-
-        <button onClick={this.handleAddContact}>Add contacts</button>
+        <ContactForm addContact={this.addContact} />
 
         <h2>Contacts:</h2>
+        <input
+          type="text"
+          value={filters}
+          onChange={this.handleSearchChange}
+          placeholder="Пошук за ім'ям"
+        />
         <ul>
-          {contacts.map(contact => (
-            <li key={contact.id}>{contact.name}</li>
-          ))}
+        <ContactList onChang={this.filteredContacts} contacts={contacts}  number={number}/>
         </ul>
+        
+        
       </div>
     );
   }
 }
-
-//   hendleChange = e => {
-//     this.setState({ name: e.currentTarget.value });
-//   };
-
-//   hendleSubbmit = e => {
-//     e.preventDefault();
-//     this.onSubmit(this.state.name);
-//     this.setState({ name: ' ' });
-//   };
-
-//   addContacts = () => {
-
-//    return contacts.push(this.name => {
-//       return(
-// <li>{this.name}</li>
-//       )
-//     });
-
-//     // this.setState(({ contacts }) => ({
-//     //   contacts: [contact, ...contacts],
-//     // }));
-//   };
-
-//   render() {
-//     return (
-//       <div>
-//         <h1>Phonebook</h1>
-//         <br />
-//         <form>
-//           <label>
-//             <input
-//               type="text"
-//               name="name"
-//               value={this.state.name}
-//               onChange={this.hendleChange}
-//               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-//               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-//               required
-//             />
-//           </label>
-//           <br />
-
-//           <button type="submit">Add contacts</button>
-//         </form>
-//         <h2>Contacts</h2>
-//         {this.addContacts}
-//       </div>
-//     );
-//   }
-// }
-
-// {/* <h1>Phonebook</h1><br />
-//         <ContactForm />
-//         <h2>Contacts</h2>
-//         <ContactList onSubmit={this.addContacts}/>onSubmit={this.hendleSubbmit} */}

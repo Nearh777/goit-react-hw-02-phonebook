@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 
-
 export class ContactList extends Component {
-    state = { 
-        text: '',
-     }
 
+render() {
+    const { contacts } = this.props;
 
-    render() { 
-        return ( 
-<>
-<ul>          
-          <li></li>
+    return (
+      
+        <ul>
+          {contacts.map((contact) => (
+            <li key={contact.id}>
+             {contact.name}: {contact.number}
+             </li>
+          ))}
         </ul>
-</>
-         );
-    }
-};
- 
-
-
+      
+    );
+  }
+}
